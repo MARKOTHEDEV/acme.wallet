@@ -1,8 +1,14 @@
 'use client'
 import { useEffect, useState } from 'react'
 import type { User } from '@/types/api'
-import { BalanceSummary, RatesWidget, RecentTransactions, WalletCard } from '@/components/dashboard'
-import { Button } from '@/components/ui'
+import {
+  BalanceSummary,
+  DashboardSkeleton,
+  RatesWidget,
+  RecentTransactions,
+  WalletCard,
+} from '@/components/dashboard'
+import { Button, Card, EmptyState } from '@/components/ui'
 import { getMe } from '@/lib/api/endpoints'
 import styles from './page.module.css'
 
@@ -25,42 +31,53 @@ export default function DashboardPage() {
     }
   }, [attempt])
 
+  let overview
   if (error) {
-    return (
-      <div className={styles.page}>
-        <p className={styles.error} role="alert">
-          We couldn&apos;t load your dashboard. {error}
-        </p>
-        <Button
-          variant="secondary"
-          iconLeft="refresh"
-          onClick={() => {
-            setError(undefined)
-            setAttempt((n) => n + 1)
-          }}
-        >
-          Try again
-        </Button>
-      </div>
+    overview = (
+      <Card padding="none">
+        <EmptyState
+          icon="alert"
+          tone="danger"
+          title="We couldn't load your dashboard"
+          description="Check your connection and try again."
+          action={
+            <Button
+              iconLeft="refresh"
+              onClick={() => {
+                setError(undefined)
+                setAttempt((n) => n + 1)
+              }}
+            >
+              Try again
+            </Button>
+          }
+        />
+      </Card>
+    )
+  } else if (!user) {
+    overview = <DashboardSkeleton />
+  } else {
+    overview = (
+      <>
+        <header>
+          <h1 className={styles.title}>Welcome back, {user.firstName}</h1>
+          <p className={styles.subtitle}>Here&apos;s what&apos;s happening with your money today.</p>
+        </header>
+
+        <BalanceSummary wallets={user.wallets} />
+
+        <div className={styles.wallets}>
+          {user.wallets.map((wallet) => (
+            <WalletCard key={wallet.currency} wallet={wallet} />
+          ))}
+        </div>
+      </>
     )
   }
 
-  if (!user) return <p className={styles.loading}>Loading…</p>
-
   return (
     <div className={styles.page}>
-      <header>
-        <h1 className={styles.title}>Welcome back, {user.firstName}</h1>
-        <p className={styles.subtitle}>Here&apos;s what&apos;s happening with your money today.</p>
-      </header>
-
-      <BalanceSummary wallets={user.wallets} />
-
-      <div className={styles.wallets}>
-        {user.wallets.map((wallet) => (
-          <WalletCard key={wallet.currency} wallet={wallet} />
-        ))}
-      </div>
+      {overview}
 
       <div className={styles.columns}>
         <RecentTransactions />

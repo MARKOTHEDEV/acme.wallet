@@ -1,0 +1,42 @@
+.skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.header,
+.stack,
+.wallet {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.header {
+  gap: var(--space-3);
+  padding: var(--space-1) 0;
+}
+
+.balance {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.wallets {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-5);
+}
+
+.wallet {
+  justify-content: center;
+  min-height: 104px;
+}
+
+@media (max-width: 900px) {
+  .wallets {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

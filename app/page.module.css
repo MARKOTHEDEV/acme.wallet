@@ -4,18 +4,6 @@
   gap: var(--space-6);
 }
 
-.loading {
-  color: var(--color-text-muted);
-}
-
-.error {
-  color: var(--color-danger);
-}
-
-.page > .error + * {
-  align-self: flex-start;
-}
-
 .title {
   font-size: var(--text-2xl);
   font-weight: var(--weight-bold);

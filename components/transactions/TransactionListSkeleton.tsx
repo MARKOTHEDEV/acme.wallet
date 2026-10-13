@@ -1,24 +1,31 @@
+import { Skeleton } from '@/components/ui'
 import styles from './TransactionListSkeleton.module.css'
 
-const ROWS = 6
+export interface TransactionListSkeletonProps {
+  rows?: number
+  /** Show the day-header band above the rows. */
+  header?: boolean
+}
 
-/** Placeholder shown on the first load, shaped like a day header and six rows. */
-export function TransactionListSkeleton() {
+/** Placeholder shaped like a day header and a few rows, shown while a list loads. */
+export function TransactionListSkeleton({ rows = 6, header = true }: TransactionListSkeletonProps) {
   return (
     <div role="status" aria-label="Loading transactions">
-      <div className={styles.day}>
-        <span className={styles.bar} style={{ width: 64, height: 10 }} />
-      </div>
-      {Array.from({ length: ROWS }, (_, i) => (
+      {header && (
+        <div className={styles.day}>
+          <Skeleton width={64} height={10} />
+        </div>
+      )}
+      {Array.from({ length: rows }, (_, i) => (
         <div key={i} className={styles.row}>
-          <span className={styles.circle} />
+          <Skeleton shape="circle" width={40} height={40} />
           <span className={styles.lines}>
-            <span className={styles.bar} style={{ width: 120, height: 12 }} />
-            <span className={styles.bar} style={{ width: 260, height: 10 }} />
+            <Skeleton width={120} height={12} />
+            <Skeleton width={260} height={10} />
           </span>
           <span className={styles.end}>
-            <span className={styles.bar} style={{ width: 96, height: 12 }} />
-            <span className={styles.bar} style={{ width: 40, height: 10 }} />
+            <Skeleton width={96} height={12} />
+            <Skeleton width={40} height={10} />
           </span>
         </div>
       ))}

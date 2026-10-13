@@ -8,12 +8,6 @@
   color: var(--color-primary);
 }
 
-.message {
-  padding: var(--space-6);
-  font-size: var(--text-md);
-  color: var(--color-text-muted);
-}
-
 .details {
   display: grid;
   grid-template-columns: auto 1fr;
