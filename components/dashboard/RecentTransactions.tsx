@@ -12,11 +12,25 @@ export function RecentTransactions() {
   const [selected, setSelected] = useState<Transaction | null>(null)
   const [transactions, setTransactions] = useState<Transaction[]>()
   const [isLoading, setIsLoading] = useState(true)
+  const [failed, setFailed] = useState(false)
 
   useEffect(() => {
+    let cancelled = false
     getTransactions({ limit: 5 })
-      .then((res) => setTransactions(res.data))
-      .finally(() => setIsLoading(false))
+      .then((res) => {
+        if (cancelled) return
+        setTransactions(res.data)
+        setFailed(false)
+      })
+      .catch(() => {
+        if (!cancelled) setFailed(true)
+      })
+      .finally(() => {
+        if (!cancelled) setIsLoading(false)
+      })
+    return () => {
+      cancelled = true
+    }
   }, [])
 
   return (
@@ -32,7 +46,10 @@ export function RecentTransactions() {
         />
       </div>
       {isLoading && <p className={styles.message}>Loading…</p>}
-      {!isLoading && !transactions?.length && <p className={styles.message}>No transactions yet.</p>}
+      {failed && <p className={styles.message}>We couldn&apos;t load your transactions.</p>}
+      {!isLoading && !failed && !transactions?.length && (
+        <p className={styles.message}>No transactions yet.</p>
+      )}
       {transactions?.map((tx) => (
         <TransactionRow key={tx.id} transaction={tx} onSelect={setSelected} />
       ))}
