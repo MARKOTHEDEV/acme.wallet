@@ -1,6 +1,11 @@
+/*
+ * Desktop: icon | title + narration | status | amount + time   (min 68px, 12/24 padding)
+ * Mobile:  icon | title + narration | amount over status       (min 64px, 12/16 padding)
+ */
 .row {
   display: grid;
-  grid-template-columns: 40px minmax(0, 1fr) auto auto;
+  grid-template-areas: 'icon main status end';
+  grid-template-columns: 40px minmax(0, 1fr) 112px 176px;
   align-items: center;
   gap: var(--space-4);
   width: 100%;
@@ -23,6 +28,7 @@
 
 .icon {
   display: inline-flex;
+  grid-area: icon;
   align-items: center;
   justify-content: center;
   width: 40px;
@@ -30,9 +36,12 @@
   border-radius: var(--radius-full);
   background: var(--color-primary-soft);
   color: var(--color-primary);
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
 }
 
 .main {
+  grid-area: main;
   min-width: 0;
 }
 
@@ -41,6 +50,7 @@
   font-size: var(--text-md);
   font-weight: var(--weight-semibold);
   line-height: var(--leading-tight);
+  color: var(--color-text);
 }
 
 .narration {
@@ -53,25 +63,54 @@
   white-space: nowrap;
 }
 
+.status {
+  display: flex;
+  grid-area: status;
+  align-items: center;
+}
+
 .end {
-  display: block;
+  grid-area: end;
   text-align: right;
 }
 
-.amount,
-.credit {
+.amount {
   font-size: var(--text-md);
   font-weight: var(--weight-semibold);
+  color: var(--color-text);
 }
 
 .credit {
   color: var(--color-success);
 }
 
-.meta {
+.time {
   display: block;
   margin-top: var(--space-1);
   font-size: var(--text-xs);
   color: var(--color-text-subtle);
-  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .row {
+    grid-template-areas:
+      'icon main end'
+      'icon main status';
+    grid-template-columns: 40px minmax(0, 1fr) auto;
+    column-gap: var(--space-3);
+    row-gap: 6px;
+    min-height: 64px;
+    padding: var(--space-3) var(--space-4);
+  }
+
+  /* Flex here so the amount and badge are sized by their own line heights (21 + 6 + 22 = 49). */
+  .status,
+  .end {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .time {
+    display: none;
+  }
 }
