@@ -40,7 +40,7 @@ describe('FilterBar', () => {
     expect(onSearch).toHaveBeenCalledWith('net')
   })
 
-  it('reports dropdown changes immediately, with undefined for "All"', async () => {
+  it('reports select changes immediately, with undefined for "All"', async () => {
     const { onTypeChange, onStatusChange } = renderBar({ status: 'failed' })
     await userEvent.click(screen.getByRole('combobox', { name: 'Type' }))
     await userEvent.click(screen.getByRole('option', { name: 'Card payment' }))
