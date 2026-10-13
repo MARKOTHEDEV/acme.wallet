@@ -33,6 +33,17 @@
   box-shadow: 0 0 0 3px var(--color-primary-soft);
 }
 
+/* The border and ring above are the focus indicator; skip the global outline on top of them. */
+.input:focus-visible {
+  outline: none;
+}
+
+/* Search fields clear through the page's own controls, not the browser's built-in button. */
+.input::-webkit-search-cancel-button,
+.input::-webkit-search-decoration {
+  appearance: none;
+}
+
 .withIcon {
   padding-left: var(--space-10);
 }
