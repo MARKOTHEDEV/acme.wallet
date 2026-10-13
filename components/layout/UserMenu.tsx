@@ -16,7 +16,10 @@ export function UserMenu() {
   const [user, setUser] = useState<User>()
 
   useEffect(() => {
-    getMe().then((res) => setUser(res.data))
+    // If this fails the menu simply shows the avatar without a name.
+    getMe()
+      .then((res) => setUser(res.data))
+      .catch(() => {})
   }, [])
 
   return (

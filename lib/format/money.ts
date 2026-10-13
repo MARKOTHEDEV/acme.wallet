@@ -40,3 +40,24 @@ export function parseMoney(input: string, currency: Currency): number | null {
   const [whole, fraction = ''] = cleaned.split('.')
   return Number(whole) * MINOR_UNITS_PER_MAJOR[currency] + Number(fraction.padEnd(2, '0'))
 }
+
+/**
+ * Tidy what a user is typing into an amount field: digits only, thousands separators, a single
+ * decimal point and at most two decimals. "1000000" -> "1,000,000", ".5" -> "0.5".
+ * The result still parses with `parseMoney`.
+ */
+export function formatAmountInput(raw: string): string {
+  const cleaned = raw.replace(/[^\d.]/g, '')
+  const dot = cleaned.indexOf('.')
+  const whole = (dot === -1 ? cleaned : cleaned.slice(0, dot)).replace(/^0+(?=\d)/, '')
+  const fraction =
+    dot === -1
+      ? ''
+      : cleaned
+          .slice(dot + 1)
+          .replace(/\./g, '')
+          .slice(0, 2)
+  const grouped = whole.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+  if (dot === -1) return grouped
+  return `${grouped || '0'}.${fraction}`
+}

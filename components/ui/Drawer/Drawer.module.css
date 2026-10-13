@@ -3,6 +3,7 @@
   inset: 0;
   z-index: 50;
   background: var(--color-overlay);
+  animation: fade-in var(--duration-normal) var(--ease-out);
 }
 
 .panel {
@@ -16,6 +17,8 @@
   max-width: 100%;
   background: var(--color-surface);
   box-shadow: var(--shadow-overlay);
+  outline: none;
+  animation: slide-in-right var(--duration-normal) var(--ease-out);
 }
 
 .header {
@@ -33,14 +36,9 @@
 }
 
 .close {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   width: 32px;
-  height: 32px;
-  border-radius: var(--radius-md);
+  padding: 0;
   color: var(--color-text-muted);
-  cursor: pointer;
 }
 
 .close:hover {
@@ -58,6 +56,58 @@
   border-top: 1px solid var(--color-border);
 }
 
+.closing {
+  pointer-events: none;
+  animation-name: fade-out;
+  /* Hold the last keyframe until React unmounts, otherwise it snaps back for a frame. */
+  animation-fill-mode: forwards;
+}
+
+.closing .panel {
+  animation-name: slide-out-right;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    transform: translateX(var(--space-6));
+    opacity: 0;
+  }
+}
+
+@keyframes slide-out-right {
+  to {
+    transform: translateX(var(--space-6));
+    opacity: 0;
+  }
+}
+
+@keyframes slide-in-up {
+  from {
+    transform: translateY(var(--space-6));
+    opacity: 0;
+  }
+}
+
+@keyframes slide-out-down {
+  to {
+    transform: translateY(var(--space-6));
+    opacity: 0;
+  }
+}
+
 @media (max-width: 640px) {
   .panel {
     top: auto;
@@ -65,5 +115,17 @@
     width: 100%;
     max-height: 90vh;
     border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    animation-name: slide-in-up;
+  }
+
+  .closing .panel {
+    animation-name: slide-out-down;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .overlay,
+  .panel {
+    animation: none;
   }
 }

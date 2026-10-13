@@ -1,4 +1,6 @@
 export { BalanceSummary } from './BalanceSummary'
+export { DashboardPage } from './DashboardPage'
+export { DashboardSkeleton } from './DashboardSkeleton'
 export { RatesWidget } from './RatesWidget'
 export { RecentTransactions } from './RecentTransactions'
 export { WalletCard } from './WalletCard'

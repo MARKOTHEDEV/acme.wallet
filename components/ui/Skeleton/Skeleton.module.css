@@ -1,0 +1,15 @@
+.skeleton {
+  display: block;
+  flex: none;
+  max-width: 100%;
+  background: var(--color-border);
+}
+
+.bar {
+  border-radius: var(--radius-sm);
+}
+
+.circle,
+.pill {
+  border-radius: var(--radius-full);
+}

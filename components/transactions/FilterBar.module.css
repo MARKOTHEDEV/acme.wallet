@@ -1,0 +1,38 @@
+.filters {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-3);
+}
+
+.search {
+  flex: 1;
+}
+
+.select {
+  flex: none;
+  width: 200px;
+}
+
+.clear {
+  flex: none;
+}
+
+@media (max-width: 640px) {
+  .filters {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .search {
+    grid-column: 1 / -1;
+  }
+
+  .select {
+    width: auto;
+  }
+
+  .clear {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+}

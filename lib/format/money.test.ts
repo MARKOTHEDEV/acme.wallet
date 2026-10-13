@@ -1,4 +1,4 @@
-import { formatMoney, parseMoney } from './money'
+import { formatAmountInput, formatMoney, parseMoney } from './money'
 
 describe('formatMoney', () => {
   it('formats minor units with two decimals', () => {
@@ -24,5 +24,26 @@ describe('parseMoney', () => {
     expect(parseMoney('', 'NGN')).toBeNull()
     expect(parseMoney('1.234', 'NGN')).toBeNull()
     expect(parseMoney('abc', 'NGN')).toBeNull()
+  })
+})
+
+describe('formatAmountInput', () => {
+  it('groups thousands while typing', () => {
+    expect(formatAmountInput('1000000')).toBe('1,000,000')
+    expect(formatAmountInput('1,0000')).toBe('10,000')
+    expect(formatAmountInput('1500.5')).toBe('1,500.5')
+  })
+
+  it('allows one decimal point and two decimals, and drops anything else', () => {
+    expect(formatAmountInput('12.345')).toBe('12.34')
+    expect(formatAmountInput('1.2.3')).toBe('1.23')
+    expect(formatAmountInput('abc1x2')).toBe('12')
+    expect(formatAmountInput('.5')).toBe('0.5')
+    expect(formatAmountInput('007')).toBe('7')
+    expect(formatAmountInput('')).toBe('')
+  })
+
+  it('produces values parseMoney accepts', () => {
+    expect(parseMoney(formatAmountInput('1234567.891'), 'NGN')).toBe(123456789)
   })
 })
