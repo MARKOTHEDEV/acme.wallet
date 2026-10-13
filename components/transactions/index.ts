@@ -1,3 +1,5 @@
 export { FilterBar } from './FilterBar'
+export { Pagination } from './Pagination'
+export { TransactionList } from './TransactionList'
 export { TransactionRow, type TransactionRowProps } from './TransactionRow'
 export { TransactionsPage, TransactionsPageHeader } from './TransactionsPage'

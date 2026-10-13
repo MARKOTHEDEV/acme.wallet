@@ -22,10 +22,14 @@
   color: var(--color-text-muted);
 }
 
-.message {
-  padding: var(--space-6);
-  font-size: var(--text-md);
-  color: var(--color-text-muted);
+.list {
+  transition: opacity var(--duration-normal) var(--ease-out);
+}
+
+/* Previous results stay visible, dimmed, while the next page loads. */
+.refreshing {
+  opacity: 0.6;
+  pointer-events: none;
 }
 
 @media (max-width: 640px) {
