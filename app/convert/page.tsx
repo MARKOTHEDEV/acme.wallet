@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react'
 import type { Conversion, Currency, Rate, User } from '@/types/api'
 import { CURRENCIES } from '@/types/api'
-import { Button, Card, Input, Money, Select } from '@/components/ui'
+import { Button, Card, Money, MoneyInput, Select } from '@/components/ui'
 import { convert, getMe, getRate } from '@/lib/api/endpoints'
 import { parseMoney } from '@/lib/format'
 import styles from './page.module.css'
@@ -32,7 +32,8 @@ export default function ConvertPage() {
   const fee = Math.round(value * 0.015)
   const youGet = rate ? Math.floor(value * rate.rate) : 0
   const wallet = user?.wallets.find((w) => w.currency === from)
-  const canSubmit = value > 0 && from !== to && !submitting
+  const exceedsBalance = wallet !== undefined && value + fee > wallet.balance
+  const canSubmit = value > 0 && from !== to && !submitting && !exceedsBalance
 
   const handleConvert = async () => {
     if (!canSubmit) return
@@ -62,13 +63,12 @@ export default function ConvertPage() {
             onChange={(value) => setFrom(value as Currency)}
             fieldClassName={styles.currency}
           />
-          <Input
+          <MoneyInput
             label="Amount"
-            type="number"
-            inputMode="decimal"
             placeholder="0.00"
             value={amount}
-            onChange={(e) => setAmount(e.target.value)}
+            onValueChange={setAmount}
+            error={exceedsBalance ? 'More than your balance, including the 1.5% fee' : undefined}
             hint={
               wallet ? (
                 <>

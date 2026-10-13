@@ -1,4 +1,4 @@
-import { useId, type InputHTMLAttributes, type ReactNode } from 'react'
+import { useId, type InputHTMLAttributes, type ReactNode, type Ref } from 'react'
 import { cx } from '@/lib/cx'
 import { Field } from '../Field'
 import { Icon, type IconName } from '../Icon'
@@ -11,6 +11,7 @@ export interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 
   error?: string
   leadingIcon?: IconName
   fieldClassName?: string
+  ref?: Ref<HTMLInputElement>
 }
 
 export function Input({
