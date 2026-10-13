@@ -5,6 +5,7 @@ import { cx } from '@/lib/cx'
 import { hasActiveFilters, PAGE_SIZE } from '@/lib/transactions/filters'
 import { FilterBar } from './FilterBar'
 import { Pagination } from './Pagination'
+import { TransactionDrawer } from './TransactionDrawer'
 import { TransactionList } from './TransactionList'
 import { TransactionListSkeleton } from './TransactionListSkeleton'
 import { useTransactions } from './useTransactions'
@@ -107,6 +108,12 @@ export function TransactionsPage() {
       >
         {list}
       </Card>
+
+      <TransactionDrawer
+        id={state.id}
+        transactions={data?.transactions}
+        onClose={() => update({ id: undefined }, 'replace')}
+      />
 
       {data && data.meta.total > 0 && !error && (
         <Pagination
