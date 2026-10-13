@@ -6,7 +6,7 @@ import {
   type TransactionStatus,
   type TransactionType,
 } from '@/types/api'
-import { Button, Input, Select } from '@/components/ui'
+import { Button, Dropdown, Input } from '@/components/ui'
 import { TRANSACTION_STATUS_LABELS, TRANSACTION_TYPE_LABELS } from '@/lib/format'
 import styles from './FilterBar.module.css'
 
@@ -74,20 +74,18 @@ export function FilterBar({
         onChange={handleSearch}
         fieldClassName={styles.search}
       />
-      <Select
+      <Dropdown
         label="Type"
         options={TYPE_OPTIONS}
         value={type ?? ''}
-        onChange={(event) => onTypeChange((event.target.value || undefined) as TransactionType | undefined)}
+        onChange={(value) => onTypeChange((value || undefined) as TransactionType | undefined)}
         fieldClassName={styles.select}
       />
-      <Select
+      <Dropdown
         label="Status"
         options={STATUS_OPTIONS}
         value={status ?? ''}
-        onChange={(event) =>
-          onStatusChange((event.target.value || undefined) as TransactionStatus | undefined)
-        }
+        onChange={(value) => onStatusChange((value || undefined) as TransactionStatus | undefined)}
         fieldClassName={styles.select}
       />
       {active && (
