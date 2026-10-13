@@ -5,6 +5,14 @@
   gap: var(--space-4);
 }
 
+.card > :first-child {
+  min-width: 0;
+}
+
+.card > :last-child {
+  flex-shrink: 0;
+}
+
 .label {
   font-size: var(--text-sm);
   color: var(--color-text-muted);
@@ -15,4 +23,11 @@
   font-size: var(--text-3xl);
   font-weight: var(--weight-heavy);
   letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 640px) {
+  .total {
+    font-size: var(--text-2xl);
+  }
 }
